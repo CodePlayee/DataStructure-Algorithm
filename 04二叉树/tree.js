@@ -260,14 +260,37 @@ class BST{
     else{
       // 2.1 node是其父节点的右孩子，此时node的前驱结点就是其父节点
       // 2.2 node是其父节点的左孩子，则往上查找一个有右子树的祖先节点,
-      //并且这个祖先节点的右子树中一定能找到当前节点."
+      //并且这个祖先节点的右子树中一定能找到当前节点.
       let curNode=node
       let ancestor = this.getParent(curNode)
-      while(ancestor && ancestor.left.val===curNode.val){
+      while (ancestor && ancestor.left && ancestor.left.val===curNode.val){
         curNode=ancestor
         ancestor = this.getParent(curNode)
       }
        return ancestor
+    }
+  }
+
+  //查找后继结点（后继结点是值比目标结点大的结点结合中，值最小的那个）
+  getLaterNode(node){
+    // 1.node有右子树，则后继结点为右子树最小结点
+    if(node.right){
+      let cur=node.right
+      while(cur.left){
+        cur=cur.left
+      }
+      return cur
+    }
+    // 2.node无右子树，若node为父节点的左孩子，则node的后继结点就是其父节点
+    //若node为父节点的右孩子，则向上查找最近的有左子树的祖先结点，且该祖先结点的左子树中有 node
+    else{
+      let curNode=node
+      let parent=this.getParent(curNode)
+      while (parent && parent.right && parent.right.val===curNode.val){
+        curNode=parent
+        parent=this.getParent(curNode)
+      }
+      return parent //parent 要么为null，要么 parent.left.val=curNode.val
     }
   }
 

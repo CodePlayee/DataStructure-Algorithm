@@ -55,11 +55,7 @@ class Queue{
 //数组实现的环形队列(tail指向的位置如果是数组唯一空位，将不可再进栈)
 //tail 指向的位置实际上是没有存储数据的。所以，循环队列会浪费一个数组位置的存储空间。
 
-极客时间版权所有: https://time.geekbang.org/column/article/41330
-
-极客时间版权所有: https://time.geekbang.org/column/article/41330
 //免去了数组搬移的开销
-
 class RingQueue{
   constructor(capacity) {
     this.head = 0
