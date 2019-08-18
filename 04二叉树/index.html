@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src='./tree.js'></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // const d=new Tree('D')
+    // const e=new Tree('E')
+    // const b=new Tree('B')
+    // b.left=d
+    // b.right=e
+    // const f=new Tree('F')
+    // const g=new Tree('G')  
+    // const c=new Tree('C')
+    // c.left=f
+    // c.right=g
+    // const a=new Tree('A')
+    // a.left=b
+    // a.right=c
+
+    //preOrder(a)
+    //traverseByLevel(a)
+    //console.log(traverseByLevel2(a))
+
+    //test for BST
+    const root=new Node(10)
+    const bst=new BST(root)
+    const node5= new Node(5)
+    const node15 = new Node(15)
+    const node3 = new Node(3)
+    const node7 = new Node(7)
+    const node20 = new Node(20)
+    const node4 = new Node(4)
+    const node6 = new Node(6)
+
+    bst.insert(node5)
+    bst.insert(node15)
+    bst.insert(node3)
+    bst.insert(node7)
+    bst.insert(node20)
+    bst.insert(node4)
+    bst.insert(node6)
+
+    // console.log(bst.remove(7))
+    // console.log(bst.remove(9))
+    // console.log(bst)
+    //console.log(bst.remove(12))
+    //console.log(bst)
+    
+    // console.log(bst.getHeight(bst.root))
+    // console.log(bst.getHeight2())
+
+    console.log(bst.getFormerNode(node6))
+    console.log(bst.getFormerNode(node3))
+    console.log(bst.getFormerNode(node15))
+
+  </script>
+</body>
+</html>

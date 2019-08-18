@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src='./queue.js'></script>
+  <title>Queue</title>
+</head>
+<body>
+  <script>
+    //常规数组实现的队列的检验
+    // const queue=new Queue(4)
+    // console.log('result of dequeue in empty queue:',queue.dequeue())
+    // queue.enqueue(0)
+    // queue.enqueue(1)
+    // queue.enqueue(2)
+    // queue.enqueue(3)
+    // console.log('result of enqueue in full queue:',queue.enqueue(4))
+    // queue.logAll()
+    // queue.dequeue()
+    // queue.logAll()
+    // queue.enqueue(4)
+    // queue.logAll()
+  
+    //环形队列的检验
+    const queue2=new RingQueue(4)
+    console.log('result of dequeue in empty queue:',queue2.dequeue())
+    queue2.enqueue(0)
+    queue2.enqueue(1)
+    queue2.enqueue(2)
+    console.log('result of enqueue in full queue:',queue2.enqueue(3))
+    queue2.logAll()
+    console.log(queue2.dequeue())
+    console.log(queue2.dequeue())
+    queue2.enqueue(3)
+    queue2.enqueue(4)
+    queue2.logAll()
+   
+
+  </script>
+</body>
+</html>
