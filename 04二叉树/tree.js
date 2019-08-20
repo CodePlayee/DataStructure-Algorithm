@@ -1,5 +1,5 @@
 // the definition of binary tree node(链式存储法)
-function Node(val){
+function TreeNode(val){
   this.val=val
   this.left=null
   this.right=null
@@ -293,5 +293,28 @@ class BST{
       return parent //parent 要么为null，要么 parent.left.val=curNode.val
     }
   }
+}
 
+//leetcode No.109: Convert sorted list to a height balanced BST,
+//a height-balanced binary tree is defined as a binary tree 
+//in which the depth of the two subtrees of every node never differ by more than 1.
+/**
+ * @param {ListNode} head
+ * @return {TreeNode}
+ */
+// time complexity is O(nlogn)
+const sortedListToBST = function (head) {
+  if(!head) return null
+  if(!head.next) return new TreeNode(head.val)
+  let slow=head, fast=head, prevSlow=null
+  while(fast && fast.next){
+    prevSlow=slow
+    slow=slow.next
+    fast=fast.next.next
+  }
+  prevSlow.next=null // cut the left sub list from the mid, so that the recursion stops itself.
+  let root=new TreeNode(slow.val)
+  root.left=sortedListToBST(head)
+  root.right=sortedListToBST(slow.next)
+  return root
 }

@@ -136,3 +136,48 @@ const addTwoNumbers2=(l1,l2)=>{
   }
   return list.val===0?list.next:list
 }
+
+//No.160 Intersection of Two Linked Lists
+const getIntersectionNode = function (headA, headB) {
+  if(!headA || !headB) return null
+
+  const helper=(hA,hB,gap,lenA)=>{ //hA>hB
+    if(!hA.next || !hB.next) return null
+    let nodeA=hA.next, nodeB=hB.next
+    let pos=1
+    let intersection=null
+    while(pos<=gap){
+      nodeA=nodeA.next
+      pos++
+    }
+    while(pos<lenA && nodeA && nodeB){
+      if(nodeA===nodeB){
+        intersection ? null : intersection=nodeA
+      }else{
+        intersection=null
+      }
+      nodeA=nodeA.next
+      nodeB=nodeB.next
+      pos++
+    }
+    return intersection
+  }
+  
+  let lenA=0, lenB=0
+  let nodeA=headA, nodeB=headB
+  while(nodeA){
+    lenA++
+    nodeA=nodeA.next
+  }
+  while(nodeB){
+    lenB++
+    nodeB=nodeB.next
+  }
+  const gap=lenA-lenB
+  if(gap>=0){
+    return helper(headA,headB,gap,lenA)
+  }else{
+    return helper(headB,headA,gap,lenB)
+  }
+  return null
+}
