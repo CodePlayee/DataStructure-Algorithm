@@ -181,3 +181,54 @@ const getIntersectionNode = function (headA, headB) {
   }
   return null
 }
+
+//No.147 Insertion Sort List
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+//to be imroved
+const insertionSortList = function (head) {
+  if(!head || !head.next) return head
+  let unsorted=head.next
+  let prevSortedNode=null
+  let curSortedNode=head
+  let sortedLen=1
+  while(unsorted){
+    let i=0
+    while (curSortedNode && i<sortedLen) {
+      //find the position where the unsorted node should be inserted
+      if (curSortedNode.val >= unsorted.val){
+        const nextUnsorted = unsorted.next
+        sortedLen++
+        if(prevSortedNode) prevSortedNode.next=unsorted
+        unsorted.next = curSortedNode
+        unsorted = nextUnsorted
+        break
+      }else{
+        i++
+        prevSortedNode=curSortedNode
+        curSortedNode=curSortedNode.next
+      }
+    }
+    //the current unsorted node should be inserted after the last position of the sorted list.
+    if (i>=sortedLen) {
+      const nextUnsorted = unsorted.next
+      unsorted.next=null
+      prevSortedNode.next = unsorted
+      sortedLen++
+      // update the unsorted node
+      unsorted = nextUnsorted
+    }
+    // restore the prevSortedNode and curSortedNode
+    prevSortedNode = null
+    curSortedNode = head
+  }
+
+  unsorted =null
+  prevSortedNode = null
+  curSortedNode = head
+  return head
+}
+
+

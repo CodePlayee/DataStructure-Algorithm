@@ -11,7 +11,7 @@ function Node(val, prev, next, child){
  * @param {Node} head
  * @return {Node}
  */
-// ??????
+// recursion
 const flatten = function (head) {
   const helper=(childHead,parentNode,parentNextNode)=>{
     if (!childHead) return null
@@ -27,12 +27,11 @@ const flatten = function (head) {
         const oldNextNode = curNode.next
         helper(curNode.child, curNode, curNode.next)
         curNode.child=null
-        curNode = oldNextNode ? oldNextNode : null
+        curNode = oldNextNode 
       }
     }
     prevNode.next=parentNextNode
     parentNextNode ? parentNextNode.prev=prevNode : null
-    return parentNode
   }
   
   const fakeHead={child:head}
@@ -40,7 +39,7 @@ const flatten = function (head) {
   return fakeHead.child
 };
 
-//???????
+//no resursion
 const flatten2=function(head){
   if(!head) return head
   let node=head

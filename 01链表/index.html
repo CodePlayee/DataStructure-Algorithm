@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src='singleLinkedList.js'></script>
-  <script src='doubleLinkedList.js'></script>
+  <!-- <script src='doubleLinkedList.js'></script> -->
   <script src='leetcode.js'></script>
   <title>链表</title>
 </head>
@@ -89,7 +89,14 @@
     // const list2=createListFromArr([5,6,4])
     // console.log(addTwoNumbers(list1,list2))
     //console.log(addTwoNumbers2(list1.head,list2.head))
+
+    // test for insertionSortList
+    (function () {
+      const list = createListFromArr([-1, 5, 3, 4, 0])
+      console.log(insertionSortList(list.head))
+    })()
+
  </script>
- <button onclick="testForFlatten()">start</button>
+ <!-- <button onclick="testForFlatten()">start</button> -->
 </body>
 </html>
