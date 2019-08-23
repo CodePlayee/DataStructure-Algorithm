@@ -138,48 +138,15 @@ const addTwoNumbers2=(l1,l2)=>{
 }
 
 //No.160 Intersection of Two Linked Lists
+//(very smart to dismiss the difference in length of the lists)
 const getIntersectionNode = function (headA, headB) {
   if(!headA || !headB) return null
-
-  const helper=(hA,hB,gap,lenA)=>{ //hA>hB
-    if(!hA.next || !hB.next) return null
-    let nodeA=hA.next, nodeB=hB.next
-    let pos=1
-    let intersection=null
-    while(pos<=gap){
-      nodeA=nodeA.next
-      pos++
-    }
-    while(pos<lenA && nodeA && nodeB){
-      if(nodeA===nodeB){
-        intersection ? null : intersection=nodeA
-      }else{
-        intersection=null
-      }
-      nodeA=nodeA.next
-      nodeB=nodeB.next
-      pos++
-    }
-    return intersection
+  let a=headA, b=headB
+  while(a!==b){
+    a=a ? a.next : headB
+    b=b ? b.next : headA
   }
-  
-  let lenA=0, lenB=0
-  let nodeA=headA, nodeB=headB
-  while(nodeA){
-    lenA++
-    nodeA=nodeA.next
-  }
-  while(nodeB){
-    lenB++
-    nodeB=nodeB.next
-  }
-  const gap=lenA-lenB
-  if(gap>=0){
-    return helper(headA,headB,gap,lenA)
-  }else{
-    return helper(headB,headA,gap,lenB)
-  }
-  return null
+  return a
 }
 
 //No.147 Insertion Sort List
@@ -187,48 +154,29 @@ const getIntersectionNode = function (headA, headB) {
  * @param {ListNode} head
  * @return {ListNode}
  */
-//to be imroved
+//after each insertion, node at the head of unsorted list is removed,
+// and inserted at the proper position of sorted list,
+// so the space complexity is O(1).
 const insertionSortList = function (head) {
   if(!head || !head.next) return head
-  let unsorted=head.next
-  let prevSortedNode=null
-  let curSortedNode=head
-  let sortedLen=1
-  while(unsorted){
-    let i=0
-    while (curSortedNode && i<sortedLen) {
-      //find the position where the unsorted node should be inserted
-      if (curSortedNode.val >= unsorted.val){
-        const nextUnsorted = unsorted.next
-        sortedLen++
-        if(prevSortedNode) prevSortedNode.next=unsorted
-        unsorted.next = curSortedNode
-        unsorted = nextUnsorted
-        break
-      }else{
-        i++
-        prevSortedNode=curSortedNode
-        curSortedNode=curSortedNode.next
-      }
-    }
-    //the current unsorted node should be inserted after the last position of the sorted list.
-    if (i>=sortedLen) {
-      const nextUnsorted = unsorted.next
-      unsorted.next=null
-      prevSortedNode.next = unsorted
-      sortedLen++
-      // update the unsorted node
-      unsorted = nextUnsorted
-    }
-    // restore the prevSortedNode and curSortedNode
-    prevSortedNode = null
-    curSortedNode = head
-  }
+  const fakeHead = new ListNode(0) 
+  let unsorted=head
+  let prevSortedNode=fakeHead
+  let nextUnsorted=null
 
-  unsorted =null
-  prevSortedNode = null
-  curSortedNode = head
-  return head
+  while(unsorted){
+    nextUnsorted=unsorted.next
+    //find the position to insert
+    while (prevSortedNode.next && prevSortedNode.next.val<unsorted.val) {
+      prevSortedNode = prevSortedNode.next
+    }
+    unsorted.next=prevSortedNode.next
+    prevSortedNode.next=unsorted
+    //reset prevSortedNode and unsorted
+    prevSortedNode = fakeHead
+    unsorted=nextUnsorted
+  }
+  return fakeHead.next
 }
 
 
