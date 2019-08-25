@@ -179,4 +179,131 @@ const insertionSortList = function (head) {
   return fakeHead.next
 }
 
+//No. 141 Linked List Cycle
+const hasCycle=function(head){
+  let fast=head,slow=head
+  while(fast && fast.next){
+    fast=fast.next.next
+    slow=slow.next
+    if(fast===slow){
+      return true
+    }
+  }
+  return false
+}
+
+//No. 142 Linked List Cycle II
+const detectCycle=head=>{
+  let fast=head,slow=head
+  let hasCycle=false
+  
+  while(fast && fast.next){
+    fast=fast.next.next
+    slow=slow.next
+    if(fast===slow){
+      hasCycle=true
+      break
+    }
+  }
+  if(!hasCycle) return null
+  slow=head
+  while(fast!==slow){
+    fast=fast.next
+    slow=slow.next
+  }
+  return slow
+}
+
+//No. 203 Remove Linked List Elements
+//(remove all the nodes who's val equal to the given val)
+const removeElements = function (head, val) {
+  if(!head || !val) return head
+  let curNode=head
+  let prev=null
+  while(curNode){
+    if(curNode.val===val){
+      if(prev){
+        prev.next=curNode.next
+      }else{
+        head=curNode.next
+      }
+    }else{
+      prev = curNode
+    }
+    curNode = curNode.next
+  }
+  return head
+}
+
+//No.876 Middle of the Linked List
+const middleNode = function (head) {
+  if(!head) return head
+  let fast=head,slow=head
+  while(fast && fast.next){
+    fast=fast.next.next
+    slow=slow.next
+  }
+  return slow
+}
+
+//No.1019 Next greater node in the linked list
+/**
+ * @param {ListNode} head
+ * @return {number[]}
+ */
+// one solution that is quite stupid
+const nextLargerNodes = function (head) {
+  let res=[]
+  if(!head) return res
+  let curNode=head
+  let maxInRight=0
+  while(curNode){
+    let curVal = curNode.val
+    if (curVal===maxInRight){
+      maxInRight=0
+      res.push(0)
+    }else{
+      let node = curNode.next
+      while (node) {
+        maxInRight=node.val>maxInRight ? node.val : maxInRight
+        if (node.val > curVal) {
+          res.push(node.val)
+          maxInRight=0
+          break
+        } else {
+          node = node.next
+        }
+      }
+      if (!node) {
+        res.push(0)
+      }
+    }
+    curNode=curNode.next
+  }
+  return res
+}
+
+//(1) We remove elements from the stack until the top of the stack is larger than the current element.
+//    We do not need those elements - the current value will be used instead for the remaining elements.
+//(2)The top of the stack is now our next greater element.
+//(3) We push the current element to the stack.
+const nextLargerNodes2=head=>{
+  //transform the linked lis to an array firstly
+  const res=[]
+  for(let node=head; node; node=node.next){
+    res.push(node.val)
+  }
+  let stack=[]
+  //process from right to left
+  for(let i=res.length-1;i>=0;i--){
+    const val = res[i]
+    while(stack.length>0 && stack[stack.length-1]<=val){
+      stack.pop()
+    }
+    res[i] = stack.length > 0 ? stack[stack.length-1] : 0
+    stack.push(val)
+  }
+  return res
+}
+
 

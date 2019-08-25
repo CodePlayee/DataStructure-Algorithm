@@ -1,0 +1,36 @@
+#container{
+  height:400px; 
+  border:1px #bbb; 
+  display:flex;
+  justify-content: space-around;
+  align-items: flex-end
+}
+.bar{
+  flex-grow: 1;
+  margin:0 10px
+}
+
+#A{
+  background: #f00;
+  height: 30%
+}
+
+#B{
+  background: #ddd;
+  height:80%
+}
+
+#C{
+  background: #0fd;
+  height:70%
+}
+
+#D{
+  background: #ff0;
+  height: 60%
+}
+
+#E{
+  background:#234;
+  height: 90%
+}
