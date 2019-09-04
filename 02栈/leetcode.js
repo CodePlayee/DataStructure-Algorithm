@@ -30,3 +30,55 @@ const find132pattern = function (nums) {
   }
   return false
 };
+
+// leetcode 735
+const asteroidCollision = function (asteroids) {
+  const len=asteroids.length
+  if(!len || len===1) return asteroids
+  const stack=[]
+  for(let i=0;i<len;i++){
+    const stackLen=stack.length
+    if(stackLen===0){
+      stack.push(asteroids[i])
+      continue
+    }
+    if (stack.length>0){
+      if (stack[stackLen-1]<0 && asteroids[i]>0){ // [...,-1],2
+        stack.push(asteroids[i])
+      }else if(stack[stackLen-1]*asteroids[i]<0){ // collision occurs
+        const top=stack.pop()
+        const compare = Math.abs(top) - Math.abs(asteroids[i])
+        if(compare>0){
+          stack.push(top)
+        }else if(compare<0){
+          //stack.push(asteroids[i])
+          while(stack.length>0){
+            const pop=stack.pop()
+            if (asteroids[i]*pop<0){
+              if(pop<0 && asteroids[i]>0){
+                stack.push(pop)
+                break
+              }else if (Math.abs(asteroids[i]) - Math.abs(pop) < 0){
+                stack.push(pop)
+                break
+              }
+            }else{
+              stack.push(asteroids[i])
+              break
+            }
+          }
+          if(stack.length===0){
+            stack.push(asteroids[i])
+          }
+        }
+      }else{ //符号相同
+        stack.push(asteroids[i])
+      }
+    }
+  }
+  return stack
+};
+
+(function () {
+  console.log(asteroidCollision([-2, -1, 1, 2]))
+})()
