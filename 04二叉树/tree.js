@@ -13,6 +13,88 @@ function preOrder(r){
   preOrder(r.right)
 }
 
+//前序遍历（非递归，借助辅助栈）
+function preOrder2(root){
+  const res=[]
+  const stack=[]
+  let cur=root
+  while(stack.length>0 || cur){
+    if(cur){
+      stack.push(cur)
+      res.push(cur.val) //add before going to children
+      cur=cur.left
+    }else{
+      const node=stack.pop()
+      cur=node.right
+    }
+  }
+  return res
+}
+
+//前序遍历（非递归，借助辅助栈，简洁且易理解，此版本最值得学习） 
+function preOrderTraversal(root){
+  const res=[]
+  if(!root) return res
+  const stack=[root]
+  while(stack.length>0){
+    const node=stack.pop()
+    res.push(node.val)
+    if(node.right){
+      stack.push(node.right)
+    }
+    if(node.left){
+      stack.push(node.left)
+    }
+  }
+  return res
+}
+
+//中序遍历（非递归，借助辅助栈）
+function inOrder(r){
+  const res=[]
+  const stack=[]
+  let cur=r
+  while(cur || stack.length>0){
+    while(cur){ //沿着BST向下搜索左子节点并压入堆栈
+      stack.push(cur)
+      cur=cur.left
+    }
+    if(stack.length>0){
+      cur=stack.pop()
+      res.push(cur) //结点存入结果
+      cur=cur.right //转向右子树
+    }
+  }
+}
+
+//后序遍历（非递归，借助辅助栈）
+// pre - order traversal is root - left - right, 
+//and post order is left - right - root.
+//Modify the code for pre - order to make it root - right - left,
+// and then reverse the output so that we can get left - right - root.
+// Create an empty stack, Push root node to the stack.
+// Do following while stack is not empty.
+// 2.1.pop an item from the stack and print it.
+// 2.2.push the left child of popped item to stack.
+// 2.3.push the right child of popped item to stack.
+// 3.reverse the ouput.
+function postorderTraversal(root) {
+  const res=[]
+  if(!root) return res
+  const stack=[root]
+  while(stack.length>0){
+    const node=stack.pop()
+    res.push(node.val)
+    if(node.left){
+      stack.push(node.left)
+    }
+    if(node.right){
+      stack.push(node.right)
+    }
+  }
+  return res.reverse()
+}
+
 //按层遍历(输出不区分层)
 function traverseByLevel(root){
   const activeNodes=[]
@@ -317,4 +399,31 @@ const sortedListToBST = function (head) {
   root.left=sortedListToBST(head)
   root.right=sortedListToBST(slow.next)
   return root
+}
+
+//No.103 Binary Tree Zigzag
+const zigzagLevelOrder=function(root){
+  if (!root) return []
+  let curLevel = [root]
+  let nextLevel = []
+  const res = [[root.val]]
+
+  let levelIndex=0
+  while (true) {
+    if (curLevel.length === 0) {
+      levelIndex++
+      if (nextLevel.length === 0) {
+        break
+      } else {
+        const oneLevel = levelIndex % 2 === 0 ? nextLevel.map(item => item.val) : nextLevel.slice().reverse().map(item => item.val)
+        res.push(oneLevel)
+        curLevel = nextLevel
+        nextLevel = []
+      }
+    }
+    const node = curLevel.shift() 
+    if (node.left) nextLevel.push(node.left)
+    if (node.right) nextLevel.push(node.right)
+  }
+  return res
 }

@@ -32,53 +32,44 @@ const find132pattern = function (nums) {
 };
 
 // leetcode 735
+// iterate from left to right,
+// only 4 scenarios will happen: (1)++ (2)-- (3)+- (4)-+
+//and collision occurs only when +-. 
 const asteroidCollision = function (asteroids) {
   const len=asteroids.length
   if(!len || len===1) return asteroids
   const stack=[]
   for(let i=0;i<len;i++){
-    const stackLen=stack.length
-    if(stackLen===0){
-      stack.push(asteroids[i])
-      continue
-    }
-    if (stack.length>0){
-      if (stack[stackLen-1]<0 && asteroids[i]>0){ // [...,-1],2
-        stack.push(asteroids[i])
-      }else if(stack[stackLen-1]*asteroids[i]<0){ // collision occurs
-        const top=stack.pop()
-        const compare = Math.abs(top) - Math.abs(asteroids[i])
-        if(compare>0){
-          stack.push(top)
-        }else if(compare<0){
-          //stack.push(asteroids[i])
-          while(stack.length>0){
-            const pop=stack.pop()
-            if (asteroids[i]*pop<0){
-              if(pop<0 && asteroids[i]>0){
-                stack.push(pop)
-                break
-              }else if (Math.abs(asteroids[i]) - Math.abs(pop) < 0){
-                stack.push(pop)
-                break
-              }
-            }else{
-              stack.push(asteroids[i])
-              break
-            }
-          }
-          if(stack.length===0){
-            stack.push(asteroids[i])
-          }
-        }
-      }else{ //符号相同
-        stack.push(asteroids[i])
+    const cur = asteroids[i]
+    if(cur>0){
+      stack.push(cur)
+    }else{
+      while (stack.length > 0 && stack[stack.length - 1] > 0 && -cur > stack[stack.length - 1]){
+        stack.pop()
+      }
+      if(stack.length===0 || stack[stack.length-1]<0){
+        stack.push(cur)
+      } else if (stack[stack.length - 1]===-cur){
+        stack.pop()
       }
     }
   }
   return stack
 };
 
-(function () {
-  console.log(asteroidCollision([-2, -1, 1, 2]))
-})()
+//No.844 Backspace String Compare
+const backString=(s,t)=>{
+  for(let i=s.length-1,j=t.length-1;;i--,j--){
+    for(let skip=0;i>=0 && (skip>0 || s[i]==='#');--i){
+      skip+=s[i]==='#' ? 1:-1
+    }
+    for(let skip=0;j>=0 && (skip>0 || t[j]==='#');--j){
+      skip+=t[j]==='#'? 1:-1
+    }
+    if(i<0 || j<0 || s[i]!==t[j]){
+      return i===-1 && j===-1
+    }
+  }
+}
+
+
