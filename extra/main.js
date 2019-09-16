@@ -19,7 +19,7 @@ const parse=(obj,str)=>{
   }
 }
 
-// BiliBili test
+// BiliBili test(the following 3)
 //1.复数字符串乘法
 const complex=(str1,str2)=>{
   const arr1=[],arr2=[];
@@ -78,3 +78,5 @@ const reverseLinkListByGroup=(arr,n)=>{
   resStr+=res[len-1]
   return resStr
 }
+
+
