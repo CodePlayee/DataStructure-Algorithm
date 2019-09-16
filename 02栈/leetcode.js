@@ -72,4 +72,110 @@ const backString=(s,t)=>{
   }
 }
 
+//No.739 Daily Temperatures(need more time to digest)
+const dailyTemperatures = function (T) {
+  const stack=new Array(T.length)
+  let top=-1
+  const res=new Array(T.length).fill(0)
+  for(let i=0;i<T.length;i++){
+    while(top>-1 && T[i]>T[stack[top]]){
+      const index=stack[top--]
+      res[index]=i-index
+    }
+    stack[++top]=i
+  }
+  return res
+}
+
+//No.394 Decode String
+//原创解法，多次遍历字符串，使用了递归，但是实际运行时间居然比下面的解法更少
+const decodeString=str=>{
+  const helper=str=>{
+    if(str.indexOf('[')===-1) return str
+    const len = str.length
+    const stack = []
+    for (let i = 0; i < len; i++) {
+      if (str[i] !== ']') {
+        stack.push(str[i])
+      } else {
+        let seg = []
+        let pop = stack.pop()
+        while (pop !== '[') {
+          seg.push(pop)
+          pop = stack.pop()
+        }
+        let digitsForK=[]
+        let digit = parseInt(stack.pop())
+        while(digit || digit===0){
+          digitsForK.push(digit)
+          digit = parseInt(stack.pop())
+        }
+        const k = parseInt(digitsForK.reverse().join(''))
+        const repeatSeg = seg.reverse().join('').repeat(k)
+        let strArr = str.split('')
+        strArr.splice(i - seg.length - digitsForK.length - 1, seg.length + digitsForK.length+2,repeatSeg)  
+        
+        return helper(strArr.join(''))
+      }
+    }
+  }
+  return helper(str)
+}
+//理论上更好的解法，一次遍历即可，无需递归
+const decodeString2=str=>{
+  const intStack=[]
+  const strStack=[]
+  let curStr=''
+  let k=0
+  for(let i=0,len=str.length;i<len;i++){
+    const char=str[i]
+    const digit = parseInt(char)
+    if(digit || digit===0){
+      k=k*10+digit
+    } else if (char==='['){
+      intStack.push(k)
+      strStack.push(curStr)
+      curStr=''
+      k=0
+    }else if(char===']'){
+      const tempStr=curStr
+      curStr=strStack.pop()
+      curStr+=tempStr.repeat(intStack.pop())
+    }else{
+      curStr+=char
+    }
+  }
+  return curStr
+}
+
+//No.880 Decoded String at Index
+const decodeAtIndex=(s,k)=>{
+  let size=0 
+  const N=s.length
+  // the length of decoded string(size)
+  for(let i=0;i<N;++i){
+    const char=s[i]
+    const digit=parseInt(char)
+    if(digit){
+      size*=digit
+    }else{
+      size++
+    }
+  }
+
+  for(let i=N-1;i>=0;--i){
+    const char=s[i]
+    k%=size
+    const digit=parseInt(char)
+    if(k===0 && /[a-z]/.test(char)){
+      return char
+    }
+    if(digit){
+      size/=digit
+    }else{
+      size--
+    }
+  }
+}
+
 
