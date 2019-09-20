@@ -19,7 +19,7 @@ const parse=(obj,str)=>{
   }
 }
 
-// BiliBili test
+// BiliBili test(the following 3)
 //1.复数字符串乘法
 const complex=(str1,str2)=>{
   const arr1=[],arr2=[];
@@ -78,5 +78,47 @@ const reverseLinkListByGroup=(arr,n)=>{
   resStr+=res[len-1]
   return resStr
 }
+
+
+//yuanfudao test online
+//1.逆时针按圈输出矩阵
+const logMatrixCounterClockly=(n,m,arr)=>{
+  let startX=0,startY=0,endX=m-1,endY=n-1
+  const res=[]
+
+  while(startX<=endX && startY<=endY){
+    //up to bottom
+    if(startY<=endY){
+      for(let i=startY;i<=endY;i++){
+        res.push(arr[i][startX])
+      }
+    }
+    //left to right
+    if(startX<endX){
+      for(let i=startX+1;i<=endX;i++){
+        res.push(arr[endY][i])
+      }
+    }
+    //bottom to up
+    if(startX<endX && startY<endY){
+      for(let i=endY-1;i>=startY;i--){
+        res.push(arr[i][endX])
+      }
+    }
+    //right to left
+    if(startX<endX-1 && startY<endY){
+      for(let i=endX-1;i>=startX+1;i--){
+        res.push(arr[startY][i])
+      }
+    }
+    startX++
+    startY++
+    endX--
+    endY--
+  }
+  return res
+}
+
+
 
 
