@@ -140,6 +140,7 @@ function PrintByLevel(pRoot) {
   return res
 }
 //方法二（递归，巧妙）
+//https://www.nowcoder.com/questionTerminal/445c44d982d04483b04a54f298796288?f=discussion
 function PrintByLevel2(pRoot){
   const level=(root,depth,res)=>{
     if(!root) return 
@@ -155,6 +156,38 @@ function PrintByLevel2(pRoot){
   return res
 }
 
+
+//6.序列化二叉树（先序遍历）
+function Serialize(pRoot) {
+  if(!pRoot) return '#!'
+  let res=pRoot.val+'!'
+  res+=Serialize(pRoot.left)
+  res+=Serialize(pRoot.right)
+  return res
+}
+
+//由于序列化后的字符串中，空结点也有相应的表示（#）
+//所以可通过 index 依序还原得到各个结点
+//这里的反序列化基于先序遍历
+function Deserialize(s) {
+  let index=-1
+  const chars = s.split('!')
+  chars.pop()
+  const charsLen=chars.length
+  const helper = chars=>{
+    index++
+    if(index>=charsLen) return 
+    let node=null
+    if(chars[index]!=='#'){
+      node=new TreeNode(chars[index])
+      node.left = helper(chars)
+      node.right = helper(chars)
+    }
+    return node
+  }
+  return helper(chars)
+}
+
 const n1=new TreeNode(1)
 const n2=new TreeNode(2)
 const n3=new TreeNode(3)
@@ -166,13 +199,18 @@ const n8=new TreeNode(8)
 const n9=new TreeNode(9)
 n1.left=n2
 n1.right=n3
-n2.left=n4
-n2.right=n5
-n3.left=n6
-n3.right=n7
-n5.left=n8
-n6.left=n9
+// n2.left=n4
+// n2.right=n5
+// n3.left=n6
+// n3.right=n7
+// n5.left=n8
+// n6.left=n9
 
-console.log(PrintByZigzag(n1))
+//console.log(PrintByZigzag(n1))
+const str = Serialize(n1)
+//console.log(str)
+//console.log(Deserialize(str))
+
+
 
 

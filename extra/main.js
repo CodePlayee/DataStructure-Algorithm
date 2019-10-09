@@ -119,6 +119,28 @@ const logMatrixCounterClockly=(n,m,arr)=>{
   return res
 }
 
+const log=console.log
 
 
+// const promiseA= Promise.resolve('a')
+// promiseA.then(res=>log(res)).then(res=>log(res))
+// const promiseB = Promise.resolve('b')
+// promiseB.then(res => log(res))
+// promiseB.then(res => log(res))
+
+
+function fn(){
+  return ()=>{
+    return ()=>{
+      return ()=>{
+        log(this.name)
+      }
+    }
+  }
+}
+
+const f=fn.call({name:'foo'})
+f.call({name:'bar'})()()
+f().call({name:'baz'})()
+f()().call({name:'qux'})
 
