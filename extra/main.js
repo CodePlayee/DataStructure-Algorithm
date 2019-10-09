@@ -120,7 +120,41 @@ const logMatrixCounterClockly=(n,m,arr)=>{
 }
 
 const log=console.log
+// Tencent
+//1.顺时针按圈输出矩阵
+const logMatrixRing=(n,arr)=>{
+  let startX=0,startY=0,endX=n-1,endY=n-1
+  const res=[]
+  if(n===0) return res
 
+  while(startX<=endX && startY<=endY){
+    for(let i=startX;i<=endX;i++){
+      res.push(arr[startY][i])
+    }
+  
+    for(let i=startY+1;i<=endY;i++){
+      res.push(arr[i][endX])
+    }
+   
+    if(startX!==endX){
+      for(let i=endX-1;i>=startX;i--){
+        res.push(arr[endY][i])
+      }
+    }
+    //bottom to up
+    if(startY!==endY){
+      for(let i=endY-1;i>startY;i--){
+        res.push(arr[i][startX])
+      }
+    }
+   
+    startX++
+    startY++
+    endX--
+    endY--
+  }
+  return res
+}
 
 // const promiseA= Promise.resolve('a')
 // promiseA.then(res=>log(res)).then(res=>log(res))
@@ -143,4 +177,51 @@ const f=fn.call({name:'foo'})
 f.call({name:'bar'})()()
 f().call({name:'baz'})()
 f()().call({name:'qux'})
+// 2.
+const validateTime=(year,month,day)=>{
+  let year2=year, month2=month, day2=day
+  const isSpecial=year=>{
+    if((year%4===0 && year%100) || (year%400===0 && year%3200)
+     || year%172800===0){
+      return true
+    }
+    return false
+  } 
+  
+  const special=isSpecial(year)
+  const monthDays=special ? [31,29,31,30,31,30,31,31,30,31,30,31]:[
+    31,28,31,30,31,30,31,31,30,31,30,31
+  ]
+  //monthDays[1]=special ? 29 : 28
 
+  if(month===12 && day>31){
+    month2=1
+    day2-=31
+    year2++
+  }else if(special && month===2 && day>29){
+    month2=3
+    day2-=28
+  }else if(day>monthDays[month+1]){
+    day2-=monthDays[month+1]
+    month2++
+  }
+
+  day2=day2<10 ? '0'+day2 :day2
+  month2=month2<10 ? '0'+month2 : month2
+  return [year2,month2,day2].join('-')
+
+}
+
+// NetEase online test 09/21
+const map=new Map()
+const func=(a,b,p,q)=>{
+  if(a+p>=b) return 1
+  const str=[a,b,p,q].join('-')
+  if(map.has(str)) return map.get(str)
+  const res= Math.min(
+    func(a+p,b,p,q)+1,
+    func(a,b,p*q,q)+1
+  )
+  map.set(str,res)
+  return res
+}
